@@ -59,7 +59,7 @@ export default function Table(props) {
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize, sortBy },
+    state: { pageIndex, pageSize, sortBy, filters },
   } = useTable(
     {
       columns: props.columns,
@@ -69,6 +69,7 @@ export default function Table(props) {
       filterTypes,
       manualPagination: true,
       manualSortBy: true,
+      manualFilters: true,
       autoResetPage: false,
       pageCount: props.pageCount,
     },
@@ -81,8 +82,13 @@ export default function Table(props) {
 
   useEffect(() => {
     props.fetchData &&
-      props.fetchData({ page: pageIndex, limit: pageSize, sort: sortBy });
-  }, [props.fetchData, pageIndex, pageSize, sortBy]);
+      props.fetchData({
+        page: pageIndex,
+        limit: pageSize,
+        sort: sortBy,
+        filters,
+      });
+  }, [props.fetchData, pageIndex, pageSize, sortBy, filters]);
 
   return (
     <>

@@ -11,9 +11,8 @@ function ContextProvider({ children }) {
   const [data, setData] = useState([]);
   const [pageCount, setPageCount] = useState(0);
 
-  async function fetchAPIData({ limit, page, sort }) {
+  async function fetchAPIData({ limit, page, sort, filters }) {
     try {
-      console.log(limit, page, sort);
       setFetchDataStatus(FetchDataStatus.Pending);
       let url = `http://localhost:3000/people?_page=${page}&_limit=${limit}`;
 
@@ -21,6 +20,12 @@ function ContextProvider({ children }) {
         const _sort = sort[0].id;
         const _order = sort[0].desc ? "desc" : "asc";
         url += `&_sort=${_sort}&_order=${_order}`;
+      }
+
+      if (filters.length > 0) {
+        for (let filter of filters) {
+          url += `&${filter.id}_like=${filter.value}`;
+        }
       }
 
       const response = await fetch(url);
@@ -36,11 +41,12 @@ function ContextProvider({ children }) {
     }
   }
 
-  const fetchData = useCallback(({ limit, page, sort }) => {
+  const fetchData = useCallback(({ limit, page, sort, filters }) => {
     fetchAPIData({
       limit,
       page,
       sort,
+      filters,
     });
   }, []);
 
