@@ -11,12 +11,19 @@ function ContextProvider({ children }) {
   const [data, setData] = useState([]);
   const [pageCount, setPageCount] = useState(0);
 
-  async function fetchAPIData({ limit, page }) {
+  async function fetchAPIData({ limit, page, sort }) {
     try {
+      console.log(limit, page, sort);
       setFetchDataStatus(FetchDataStatus.Pending);
-      const response = await fetch(
-        `http://localhost:3000/people?_page=${page}&_limit=${limit}`
-      );
+      let url = `http://localhost:3000/people?_page=${page}&_limit=${limit}`;
+
+      if (sort.length > 0) {
+        const _sort = sort[0].id;
+        const _order = sort[0].desc ? "desc" : "asc";
+        url += `&_sort=${_sort}&_order=${_order}`;
+      }
+
+      const response = await fetch(url);
       const count = Number(response.headers.get("X-Total-Count"));
       const data = await response.json();
       setData(data);
@@ -29,10 +36,11 @@ function ContextProvider({ children }) {
     }
   }
 
-  const fetchData = useCallback(({ limit, page }) => {
+  const fetchData = useCallback(({ limit, page, sort }) => {
     fetchAPIData({
       limit,
       page,
+      sort,
     });
   }, []);
 
