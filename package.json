@@ -4,14 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently 'vite' 'nodemon server/index.js'",
+    "dev": "concurrently \"vite\" \"json-server --watch db.json\"",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
     "@tailwindcss/forms": "^0.5.3",
-    "express": "^4.18.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
@@ -19,7 +18,8 @@
     "react-router-dom": "^6.4.5",
     "react-spinners": "^0.13.7",
     "react-table": "^7.8.0",
-    "sort-by": "^1.2.0"
+    "sort-by": "^1.2.0",
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
