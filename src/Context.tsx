@@ -24,7 +24,8 @@ function ContextProvider({ children }) {
 
       if (filters.length > 0) {
         for (let filter of filters) {
-          url += `&${filter.id}_like=${filter.value}`;
+          const _key = filter.id === "gender" ? filter.id : `${filter.id}_like`;
+          url += `&${_key}=${filter.value}`;
         }
       }
 

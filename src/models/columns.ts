@@ -20,7 +20,7 @@ export const columns = [
   {
     Header: "gender",
     accessor: "gender",
-    filter: "includes",
+    filter: "equals",
     Filter: SelectColumnFilter,
   },
 ];
